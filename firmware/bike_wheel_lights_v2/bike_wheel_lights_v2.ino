@@ -12,9 +12,7 @@
 #include "AngleTracker.h"
 #include "Comms.h"
 #include "Spark.h"
-
-// FastLED 3.10 renamed the palette pointer type used by a_library.ino.
-typedef TProgmemRGBGradientPaletteRef TProgmemRGBGradientPalettePtr;
+#include "palettes.h"
 
 #define NUM_SPARKS 100
 
@@ -42,14 +40,7 @@ uint8_t wheelId = DEFAULT_WHEEL_ID;
 uint32_t nextStepUs = 0;
 Preferences prefs;
 
-// ---- palettes (a_library.ino) ----
-extern const TProgmemRGBGradientPalettePtr gGradientPalettes[];
-extern const TProgmemRGBGradientPalettePtr gFireballPalettes[];
-extern const TProgmemRGBGradientPalettePtr gSparkPalettes[];
-extern const uint8_t gGradientPaletteCount;
-extern const uint8_t gFireballPaletteCount;
-extern const uint8_t gSparkPaletteCount;
-
+// ---- palettes (palettes.h) ----
 CRGBPalette256 currentPalette(gGradientPalettes[0]);
 CRGBPalette256 fireballPalette(gFireballPalettes[0]);
 CRGBPalette256 sparkPalette(gSparkPalettes[0]);

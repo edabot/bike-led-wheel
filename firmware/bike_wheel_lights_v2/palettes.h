@@ -1,16 +1,10 @@
+#pragma once
+// ============================================================================
+//  Gradient palettes. Each row is: index (0-255), R, G, B.
+//  Included once, from bike_wheel_lights_v2.ino.
+// ============================================================================
 
-DEFINE_GRADIENT_PALETTE( orange_and_blue_fireballs_old_gp ) {
-0,0,0,0,
-2,255,223,23,
-13,255,223,23,
-15,208,62,1,
-56,30,1,1,
-125,0,0,0,
-127,4,172,255,
-138,4,172,255,
-173,1,12,25,
-186,1,10,21,
-255,0,0,0};
+#include <FastLED.h>
 
 DEFINE_GRADIENT_PALETTE( orange_and_blue_fireballs_gp ) {
 0, 234, 107, 1,
@@ -50,14 +44,11 @@ DEFINE_GRADIENT_PALETTE( candy_cane_gp ) {
 204, 255, 0, 0,
 229, 255, 0, 0,
 229, 255, 255, 255,
-255, 255, 255, 255,
 255, 255, 255, 255
-
 };
 
-        
 // converted for FastLED with gammas (2.6, 2.2, 2.5)
-          
+
 DEFINE_GRADIENT_PALETTE( green_waves_gp ) {
 0, 0, 255, 0,
 15, 0, 255, 0,
@@ -82,7 +73,6 @@ DEFINE_GRADIENT_PALETTE( green_waves_gp ) {
 204, 0, 7, 0,
 212, 0, 7, 0,
 212, 0, 0, 0,
-255, 0, 0, 0,
 255, 0, 0, 0
 };
 
@@ -110,13 +100,11 @@ DEFINE_GRADIENT_PALETTE( rgb_waves_gp ) {
 204, 0, 7, 0,
 214, 0, 7, 0,
 214, 0, 0, 0,
-255, 0, 0, 0,
 255, 0, 0, 0
 };
 
 DEFINE_GRADIENT_PALETTE( cmy_chase_gp ) {
 0, 0, 255, 255,
-13, 0, 255, 255,
 13, 0, 255, 255,
 26, 0, 32, 24,
 36, 0, 7, 4,
@@ -124,13 +112,11 @@ DEFINE_GRADIENT_PALETTE( cmy_chase_gp ) {
 84, 0, 0, 0,
 84, 255, 0, 255,
 97, 255, 0, 255,
-97, 255, 0, 255,
 110, 22, 0, 24,
 120, 3, 0, 4,
 168, 0, 0, 0,
 171, 0, 0, 0,
 171, 255, 255, 0,
-184, 255, 255, 0,
 184, 255, 255, 0,
 194, 22, 32, 0,
 204, 3, 7, 0,
@@ -140,15 +126,14 @@ DEFINE_GRADIENT_PALETTE( cmy_chase_gp ) {
 // converted for FastLED with gammas (2.6, 2.2, 2.5)
 
 DEFINE_GRADIENT_PALETTE( rainbow_gp ) {
-0,255,0,0,
-41,255,255,0,
-82,0,255,3,
-127,0,216,255,
-168,0,1,255,
-209,252,0,255,
-255,255,0,0
+0, 255, 0, 0,
+41, 255, 255, 0,
+82, 0, 255, 3,
+127, 0, 216, 255,
+168, 0, 1, 255,
+209, 252, 0, 255,
+255, 255, 0, 0
 };
-
 
 DEFINE_GRADIENT_PALETTE( green_vs_magenta_fireballs_gp ) {
 0, 255, 0, 255,
@@ -238,7 +223,6 @@ DEFINE_GRADIENT_PALETTE( green_vs_magenta_gp ) {
 189, 255, 1, 255,
 199, 255, 1, 255,
 199, 0, 0, 0,
-255, 0, 0, 0,
 255, 0, 0, 0
 };
 
@@ -254,7 +238,6 @@ DEFINE_GRADIENT_PALETTE( rainbow_flag_gp ) {
 168, 1, 1, 255,
 212, 1, 1, 255,
 212, 65, 1, 255,
-255, 65, 1, 255,
 255, 65, 1, 255
 };
 
@@ -311,7 +294,6 @@ DEFINE_GRADIENT_PALETTE( smiley_face_gp ) {
 209, 255, 255, 0,
 224, 255, 255, 0,
 224, 0, 0, 0,
-255, 0, 0, 0,
 255, 0, 0, 0
 };
 
@@ -339,7 +321,6 @@ DEFINE_GRADIENT_PALETTE( flag_italy_gp ) {
 209, 222, 0, 1,
 229, 222, 0, 1,
 229, 0, 0, 0,
-255, 0, 0, 0,
 255, 0, 0, 0
 };
 
@@ -367,7 +348,6 @@ DEFINE_GRADIENT_PALETTE( flag_ireland_gp ) {
 209, 247, 44, 3,
 229, 247, 44, 3,
 229, 0, 0, 0,
-255, 0, 0, 0,
 255, 0, 0, 0
 };
 
@@ -395,11 +375,14 @@ DEFINE_GRADIENT_PALETTE( flag_france_gp ) {
 209, 0, 0, 255,
 229, 0, 0, 255,
 229, 0, 0, 0,
-255, 0, 0, 0,
 255, 0, 0, 0
 };
 
-const TProgmemRGBGradientPalettePtr  gGradientPalettes[] = {
+// ORDER IS A CONTRACT: the index here is the palette id sent by the iOS app
+// (ios-app/Shared/Model/ModeConstants.swift). Append new palettes only;
+// never reorder or remove without updating the app too. Same for the
+// fireball and spark lists below.
+const TProgmemRGBGradientPaletteRef gGradientPalettes[] = {
   green_waves_gp,
   rgb_waves_gp,
   cmy_chase_gp,
@@ -446,7 +429,7 @@ DEFINE_GRADIENT_PALETTE( fireball_magenta_gp ) {
 255, 0, 0, 0
 };
 
-const TProgmemRGBGradientPalettePtr  gFireballPalettes[] = {
+const TProgmemRGBGradientPaletteRef gFireballPalettes[] = {
   fireball_gp,
   fireball_green_gp,
   fireball_magenta_gp
@@ -481,19 +464,18 @@ DEFINE_GRADIENT_PALETTE( spark_green_gp ) {
 255, 0, 0, 0
 };
 
-const TProgmemRGBGradientPalettePtr  gSparkPalettes[] = {
+const TProgmemRGBGradientPaletteRef gSparkPalettes[] = {
   spark_fire_gp,
   spark_fire_cyan_green_gp,
   spark_fire_purple_gp,
   spark_green_gp
 };
 
+constexpr uint8_t gGradientPaletteCount = sizeof(gGradientPalettes) / sizeof(gGradientPalettes[0]);
+constexpr uint8_t gFireballPaletteCount = sizeof(gFireballPalettes) / sizeof(gFireballPalettes[0]);
+constexpr uint8_t gSparkPaletteCount    = sizeof(gSparkPalettes)    / sizeof(gSparkPalettes[0]);
 
-const uint8_t gGradientPaletteCount = 
-  sizeof( gGradientPalettes) / sizeof( TProgmemRGBGradientPalettePtr );
-
-const uint8_t gFireballPaletteCount = 
-  sizeof( gFireballPalettes) / sizeof( TProgmemRGBGradientPalettePtr );
-
-const uint8_t gSparkPaletteCount = 
-  sizeof( gSparkPalettes) / sizeof( TProgmemRGBGradientPalettePtr );
+// Update these (and the app) deliberately when adding palettes.
+static_assert(gGradientPaletteCount == 15, "gGradientPalettes changed: check iOS ModeConstants");
+static_assert(gFireballPaletteCount == 3,  "gFireballPalettes changed: check iOS ModeConstants");
+static_assert(gSparkPaletteCount == 4,     "gSparkPalettes changed: check iOS ModeConstants");
