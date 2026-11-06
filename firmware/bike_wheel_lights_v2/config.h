@@ -69,6 +69,13 @@
 // as v1 (~200 fps) no matter how fast frames are actually drawn.
 #define ANIM_STEP_US       5000
 
+// Front fire (mode 4): flames start at FIRE_FRONT_LED and spread both ways.
+// Image index 0 = top of the wheel, so a quarter turn is the front or the back.
+// If the fire shows at the back, use the Reverse toggle in the app (or change this).
+#define FIRE_FRONT_LED       (NUM_LEDS / 4)
+#define FIRE_SPAWN_PER_STEP  4     // new flame sparks per animation step (half each way)
+#define FIRE_MAX_STRENGTH    25    // higher = flames reach further round the wheel
+
 // ---------------------------------------------------------------- Radio -----
 #define BLE_NAME_PREFIX    "Itsy-Wheel-"   // led-wheel-controller app lists names starting with "Itsy"
 #define ESPNOW_CHANNEL     1

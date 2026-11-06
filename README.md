@@ -27,7 +27,7 @@ The app writes ASCII to the Nordic UART service (`6E400001-…`, write character
 
 Each command is 4 characters: `M`, mode digit, submode character, `X`.
 
-- Mode: `0` pattern, `1` fireball, `2` sparks, `3` double fireball
+- Mode: `0` pattern, `1` fireball, `2` sparks, `3` double fireball, `4` front fire
 - Submode: `'0' + index`; add 30 for reversed
 - One command (`M12X`) applies to every wheel. Two commands (`M12XM05X`) send the first to wheel A and the second to wheel B.
 - Extra: `D<n>X` sets the debug view on all wheels, `W<n>X` sets the connected unit's wheel id (saved, then it reboots).

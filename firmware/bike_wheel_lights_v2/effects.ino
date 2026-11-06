@@ -86,19 +86,27 @@ void stepPalette() {
 }
 
 // ---------------------------------------------------------------- sparks ----
+// Sparks mode uses only the first 100 slots so it looks the same as before
+// the pool was enlarged for front fire.
+const int SPARK_MODE_SLOTS = min(100, NUM_SPARKS);
+
 void stepSparks() {
-  int firstIndex = 0;
-  for (int i = 0; i < NUM_SPARKS; i++) {
+  // Live sparks are packed at the front by cleanUpSparks(), so everything from
+  // firstIndex on is free. -1 = no free slot.
+  int firstIndex = -1;
+  for (int i = 0; i < SPARK_MODE_SLOTS; i++) {
     if (sparkArray[i]->getValue() == 0) { firstIndex = i; break; }
   }
   resetLedValues();
 
-  if (sparkGap == 0 || millis() > sparkGap) {
+  // When the pool is full, hold the burst until slots free up instead of
+  // overwriting sparks that are still on screen. sparkGap is left alone, so it
+  // fires on the first step with room.
+  if (firstIndex >= 0 && (sparkGap == 0 || millis() > sparkGap)) {
     int newLedAmount = random(40, 60);
     int newOrigin = (random(0, NUM_LEDS - 50) + 25 + lastSparkOrigin) % NUM_LEDS;
     lastSparkOrigin = newOrigin;
-    for (int i = 0; i < newLedAmount; i++) {
-      if (firstIndex + i == NUM_SPARKS - 1) break;
+    for (int i = 0; i < newLedAmount && firstIndex + i < SPARK_MODE_SLOTS; i++) {
       sparkArray[firstIndex + i]->resetSpark(newOrigin);
     }
     sparkGap = millis() + random(50, 300);
@@ -151,12 +159,50 @@ void stepFireball(int numFireballs) {
   }
 }
 
+// ---------------------------------------------------------------- front fire
+// Flames start at the front of the wheel and spread both ways toward the back,
+// so the front looks like it's on fire. Image index 0 is the top of the wheel;
+// the Reverse toggle swaps which side counts as the front.
+void stepFrontFire() {
+  resetLedValues();
+  int front = isReversed ? FIRE_FRONT_LED + NUM_LEDS / 2 : FIRE_FRONT_LED;
+
+  int sparksToAdd = FIRE_SPAWN_PER_STEP;
+  for (int i = 0; i < NUM_SPARKS && sparksToAdd > 0; i++) {
+    if (!sparkArray[i]->isAlive()) {
+      int strength = random(0, FIRE_MAX_STRENGTH);
+      float sSpeed = float(strength) / 10;
+      if (sparksToAdd % 2) sSpeed = -sSpeed;   // alternate directions
+      int jitter = random(-2, 3);              // fuzz the flame root
+      sparkArray[i]->setSpark(135 + strength * 4, (front + jitter + NUM_LEDS) % NUM_LEDS, sSpeed);
+      sparksToAdd--;
+    }
+  }
+
+  for (int i = 0; i < NUM_SPARKS; i++) {
+    if (sparkArray[i]->getValue() > 0) {
+      // iterateFireball slows a spark toward zero in its own direction
+      sparkArray[i]->iterateFireball(sparkArray[i]->getSpeed() < 0, NUM_LEDS);
+      int idx = sparkArray[i]->getLedIndex();
+      for (int j = -1; j <= 1; j++) {
+        int k = (idx + j + NUM_LEDS) % NUM_LEDS;
+        ledValues[k] = addTwoFlameValues(ledValues[k], sparkArray[i]->getValue());
+      }
+    }
+  }
+
+  for (int i = 0; i < NUM_LEDS; i++) {
+    image[i] = ColorFromPalette(fireballPalette, 255 - ledValues[i], 255);
+  }
+}
+
 void stepEffect() {
   switch (displayMode) {
     case 0: stepPalette(); break;
     case 1: stepFireball(1); break;
     case 2: stepSparks(); break;
     case 3: stepFireball(2); break;
+    case 4: stepFrontFire(); break;
   }
 }
 

@@ -15,7 +15,8 @@ struct ModeConstants {
         Mode(id: 0, name: "pattern"),
         Mode(id: 1, name: "fireball"),
         Mode(id: 2, name: "sparks"),
-        Mode(id: 3, name: "double fireball")]
+        Mode(id: 3, name: "double fireball"),
+        Mode(id: 4, name: "front fire")]
     static let subModes = [
         [Mode(id: 0, name: "green waves"),
          Mode(id: 1, name: "rgb waves"),
@@ -42,6 +43,10 @@ struct ModeConstants {
          Mode(id: 2, name: "purple"),
          Mode(id: 3, name: "green/blue")],
         //double fireball
+        [Mode(id: 0, name: "yellow/red"),
+         Mode(id: 1, name: "green/blue"),
+         Mode(id: 2, name: "purple")],
+        //front fire
         [Mode(id: 0, name: "yellow/red"),
          Mode(id: 1, name: "green/blue"),
          Mode(id: 2, name: "purple")]

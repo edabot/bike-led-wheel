@@ -8,7 +8,8 @@ class Spark {
     float location;
     float sSpeed;
     int value;
-    
+    void wrapLocation(int numLeds);
+
   public:
     Spark(int value, float location);
     void iterate(int numLeds);

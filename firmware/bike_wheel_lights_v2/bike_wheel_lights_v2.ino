@@ -14,7 +14,7 @@
 #include "Spark.h"
 #include "palettes.h"
 
-#define NUM_SPARKS 100
+#define NUM_SPARKS 200   // front fire keeps ~150 alive at once
 
 // ---- LED buffers ----
 CRGB leds[NUM_LEDS];       // what goes to the strip
@@ -95,7 +95,7 @@ void updateWheel(int mode, int subMode, bool reversed) {
     currentPalette = gGradientPalettes[paletteId];
     loadPaletteImage();
   }
-  if (mode == 1 || mode == 3) {
+  if (mode == 1 || mode == 3 || mode == 4) {
     fireballId = subMode % gFireballPaletteCount;
     fireballPalette = gFireballPalettes[fireballId];
   }
@@ -122,7 +122,7 @@ void handleCommand(const Command& c) {
   if (c.len < 4) return;   // prefix, mode, sub, 'X'
   int mode = c.text[1] - '0';
   int sub = c.text[2] - '0';
-  if (mode < 0 || mode > 3 || sub < 0) return;
+  if (mode < 0 || mode > 4 || sub < 0) return;
   updateWheel(mode, sub % 30, sub >= 30);
 }
 
